@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:scurry/new_scurry_page.dart';
 import 'package:scurry/scurry.dart';
@@ -7,7 +5,6 @@ import 'package:scurry/scurry.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
   final String title;
-
 
   @override
   State<HomePage> createState() => HomePageState();
@@ -30,14 +27,14 @@ class HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-
           Scurry newScurry = await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NewScurryPage()
             )
           );
-          log("newScurry: ${newScurry.name}");
-          scurries.add(newScurry);
+          setState(() {
+            scurries.add(newScurry);
+          });
         },
         child: const Icon(Icons.pets_rounded),
       ),

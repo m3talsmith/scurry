@@ -1,4 +1,4 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:scurry/scurry.dart';
@@ -11,7 +11,14 @@ class NewScurryPage extends StatefulWidget {
 class NewScurryPageState extends State<NewScurryPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? name;
-  Image? pic;
+  File? pic;
+
+  updateValidatedAndPop(String name) {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Navigator.of(context).pop(Scurry(name: name));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +43,13 @@ class NewScurryPageState extends State<NewScurryPage> {
                 onSaved: (String? value) {
                   name = value;
                 },
+                onFieldSubmitted: (String? value) {
+                  updateValidatedAndPop(value!);
+                },
               ),
               ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      Navigator.of(context).pop(Scurry(name: name));
-                    }
+                    updateValidatedAndPop(name!);
                   },
                   child: const Text('Create')
               )
