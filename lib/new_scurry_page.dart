@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:scurry/image_form_field.dart';
 import 'package:scurry/scurry.dart';
 
 class NewScurryPage extends StatefulWidget {
@@ -47,6 +48,7 @@ class NewScurryPageState extends State<NewScurryPage> {
                   updateValidatedAndPop(value!);
                 },
               ),
+              ImageFormField((image) {}, ),
               ElevatedButton(
                   onPressed: () {
                     updateValidatedAndPop(name!);
@@ -57,8 +59,5 @@ class NewScurryPageState extends State<NewScurryPage> {
           )
       ),
     );
-    // const Center(
-    //   child: Text('New Scurry'),
-    // );
   }
 }
