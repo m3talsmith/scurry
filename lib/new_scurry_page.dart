@@ -14,10 +14,10 @@ class NewScurryPageState extends State<NewScurryPage> {
   String? name;
   File? pic;
 
-  updateValidatedAndPop(String name) {
-    if (_formKey.currentState!.validate()) {
+  updateValidatedAndPop(String name, File? pic) {
+    if (_formKey.currentState!.validate() && pic != null) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(Scurry(name: name));
+      Navigator.of(context).pop(Scurry(name: name, pic: pic));
     }
   }
 
@@ -45,13 +45,22 @@ class NewScurryPageState extends State<NewScurryPage> {
                   name = value;
                 },
                 onFieldSubmitted: (String? value) {
-                  updateValidatedAndPop(value!);
+                  updateValidatedAndPop(value!, pic);
+                },
+                onChanged: (String? value) {
+                  setState(() {
+                    name = value;
+                  });
                 },
               ),
-              ImageFormField((image) {}, ),
+              ImageFormField((image) {
+                pic = image;
+              }),
               ElevatedButton(
                   onPressed: () {
-                    updateValidatedAndPop(name!);
+                    if (name != null) {
+                      updateValidatedAndPop(name!, pic);
+                    }
                   },
                   child: const Text('Create')
               )

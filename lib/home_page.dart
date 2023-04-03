@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scurry/new_scurry_page.dart';
 import 'package:scurry/scurry.dart';
+import 'package:scurry/scurry_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -23,18 +24,21 @@ class HomePageState extends State<HomePage> {
         ],
       ),
       body: Column(
-        children: scurries.map((e) => Text(e.name!)).toList(),
+        children: scurries.map((e) => ScurryPage(name: e.name!, pic: e.pic,)).toList(),
+        // children: scurries.map((e) => Text(e.name!)).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Scurry newScurry = await Navigator.of(context).push(
+          Scurry? newScurry = await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NewScurryPage()
             )
           );
-          setState(() {
-            scurries.add(newScurry);
-          });
+          if (newScurry != null) {
+            setState(() {
+              scurries.add(newScurry!);
+            });
+          }
         },
         child: const Icon(Icons.pets_rounded),
       ),
