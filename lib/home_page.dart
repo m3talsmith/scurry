@@ -23,7 +23,7 @@ class HomePageState extends State<HomePage> {
           IconButton(onPressed: () => {}, icon: const Icon(Icons.qr_code_scanner_rounded))
         ],
       ),
-      body: Column(
+      body: ListView(
         children: scurries.map((e) => ScurryPage(name: e.name!, pic: e.pic,)).toList(),
         // children: scurries.map((e) => Text(e.name!)).toList(),
       ),

@@ -9,9 +9,12 @@ class ScurryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> children = [Text(name)];
-    children.add((pic != null) ? Image.file(pic!) : const Text('No Image Yet'));
-    return Row(
+    List<Widget> children = [
+      Image.file(pic!, fit: BoxFit.fitWidth),
+      Center(child: Text(name, textScaleFactor: 2, softWrap: true,)),
+    ];
+
+    return Stack(
       children: children,
     );
   }
