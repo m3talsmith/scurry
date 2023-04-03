@@ -16,6 +16,7 @@ class App extends StatelessWidget {
       title: 'Scurry',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
         primarySwatch: Colors.lime,
       ),
       home: const HomePage(title: 'Scurry Home'),
