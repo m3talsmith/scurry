@@ -35,24 +35,24 @@ class ImageFormFieldState extends State<ImageFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.center,
-          child: currentImage != null
-              ? Image.file(
-                  currentImage!,
-                  fit: BoxFit.cover,
-                )
-              : const Text(
-                  'No Image',
-                  textAlign: TextAlign.center,
-                ),
+    List<Widget> children = [];
+    if (currentImage != null) {
+      children.add(Container(
+        margin: const EdgeInsets.all(10.0),
+        alignment: Alignment.center,
+        child: Image.file(
+          currentImage!,
+          fit: BoxFit.cover,
         ),
-        IconButton(
-                onPressed: takePicture,
-                icon: const Icon(Icons.camera))
-      ],
+      ));
+    }
+    children.add(TextButton.icon(
+      onPressed: takePicture,
+      icon: const Icon(Icons.camera_alt_rounded),
+      label: const Text('Add an Image')));
+
+    return Column(
+      children: children,
     );
   }
 }
