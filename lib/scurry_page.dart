@@ -15,17 +15,17 @@ class ScurryPage extends StatelessWidget {
           ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
               child: Image.file(pic!, fit: BoxFit.fitWidth)),
-          Center(
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Container(
-                    padding: const EdgeInsets.all(10.0),
-                    color: const Color.fromARGB(95, 255, 255, 255),
-                    child: Text(
-                      name,
-                      textScaleFactor: 2,
-                      softWrap: true,
-                    ))))
+          ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: const EdgeInsets.all(10.0),
+                color: const Color.fromRGBO(255, 255, 255, 90),
+                child: Text(
+                  name,
+                  textScaleFactor: 2,
+                  softWrap: true,
+                ))),
         ]));
   }
 }
