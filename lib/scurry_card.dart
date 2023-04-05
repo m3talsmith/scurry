@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:scurry/scurry_qr_card.dart';
 
 class ScurryCard extends StatefulWidget {
   late String name;
@@ -14,23 +15,31 @@ class ScurryCard extends StatefulWidget {
 class ScurryCardState extends State<ScurryCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-        elevation: 3.0,
-        child: Stack(children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Image.file(widget.pic!, fit: BoxFit.fitWidth)),
-          ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Container(
-                  alignment: Alignment.bottomCenter,
-                  padding: const EdgeInsets.all(10.0),
-                  color: const Color.fromRGBO(255, 255, 255, 90),
-                  child: Text(
-                    widget.name,
-                    textScaleFactor: 2,
-                    softWrap: true,
-                  ))),
-        ]));
+    return GestureDetector(
+      onLongPress: () {
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScurryQrCard(name: widget.name)));
+        showModalBottomSheet(
+            context: context,
+            builder: (context) => ScurryQrCard(name: widget.name)
+        );
+      },
+        child: Card(
+            elevation: 3.0,
+            child: Stack(children: [
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Image.file(widget.pic!, fit: BoxFit.fitWidth)),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Container(
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.all(10.0),
+                      color: const Color.fromRGBO(255, 255, 255, 90),
+                      child: Text(
+                        widget.name,
+                        textScaleFactor: 2,
+                        softWrap: true,
+                      ))),
+            ])));
   }
 }
