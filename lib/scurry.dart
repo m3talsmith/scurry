@@ -1,10 +1,49 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:scurry/db_provider.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:uuid/uuid.dart';
 
 class Scurry {
+  String? id;
   String? name;
   File? pic;
 
-  Scurry({this.name, this.pic});
+  bool isNewRecord = true;
+
+  static const String table = 'scurries';
+
+  Scurry({this.id, this.name, this.pic});
+
+  Future<Scurry> save() async {
+    Database db = await DbProvider.open();
+    Scurry.migrate(db);
+    if (isNewRecord) {
+      id = const Uuid().v4().toString();
+    }
+    Map<String, Object?> values = {'id': id, 'name': name, 'pic': pic?.path};
+    if (isNewRecord) {
+      await db.insert(Scurry.table, values);
+      isNewRecord = false;
+      return this;
+    }
+    await db.update(Scurry.table, values, where: 'id = $id');
+    return this;
+  }
+
+  static Future<List<Scurry>> findAll() async {
+    Database db = await DbProvider.open();
+    Scurry.migrate(db);
+    List<Map> results =
+        await db.query(Scurry.table, columns: ['id', 'name', 'pic']);
+    return results
+        .map((e) => Scurry(id: e['id'], name: e['name'], pic: File(e['pic'])))
+        .toList();
+  }
+
+  static migrate(Database db) async {
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS ${Scurry.table} (id TEXT PRIMARY KEY, name TEXT, pic TEXT)');
+  }
 }

@@ -5,6 +5,8 @@ import 'package:scurry/image_form_field.dart';
 import 'package:scurry/scurry.dart';
 
 class NewScurryPage extends StatefulWidget {
+  const NewScurryPage({super.key});
+
   @override
   State<NewScurryPage> createState() => NewScurryPageState();
 }
@@ -14,10 +16,13 @@ class NewScurryPageState extends State<NewScurryPage> {
   String? name;
   File? pic;
 
-  updateValidatedAndPop(String name, File? pic) {
+  updateValidatedAndPop(String name, File? pic) async {
     if (_formKey.currentState!.validate() && pic != null) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(Scurry(name: name, pic: pic));
+      NavigatorState nav = Navigator.of(context);
+      Scurry scurry = await Scurry(name: name, pic: pic).save();
+      _formKey.currentState!.reset();
+      nav.pop(scurry);
     }
   }
 
@@ -32,9 +37,7 @@ class NewScurryPageState extends State<NewScurryPage> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Name'
-                ),
+                decoration: const InputDecoration(hintText: 'Name'),
                 validator: (String? value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a name';
@@ -62,11 +65,9 @@ class NewScurryPageState extends State<NewScurryPage> {
                       updateValidatedAndPop(name!, pic);
                     }
                   },
-                  child: const Text('Create')
-              )
+                  child: const Text('Create'))
             ],
-          )
-      ),
+          )),
     );
   }
 }

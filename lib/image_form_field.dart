@@ -47,9 +47,9 @@ class ImageFormFieldState extends State<ImageFormField> {
       ));
     }
     children.add(TextButton.icon(
-      onPressed: takePicture,
-      icon: const Icon(Icons.camera_alt_rounded),
-      label: const Text('Add an Image')));
+        onPressed: takePicture,
+        icon: const Icon(Icons.camera_alt_rounded),
+        label: const Text('Add an Image')));
 
     return Column(
       children: children,
