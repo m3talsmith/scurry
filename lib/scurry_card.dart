@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:scurry/scurry_page.dart';
 import 'package:scurry/scurry_qr_card.dart';
 
 class ScurryCard extends StatefulWidget {
+  late String id;
   late String name;
   File? pic;
-  ScurryCard({super.key, required this.name, this.pic});
+  ScurryCard({super.key, required this.id, required this.name, this.pic});
 
   @override
   State<ScurryCard> createState() => ScurryCardState();
@@ -23,6 +25,15 @@ class ScurryCardState extends State<ScurryCard> {
             builder: (context) => ScurryQrCard(name: widget.name)
         );
       },
+        onForcePressPeak: (ForcePressDetails details) {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => ScurryQrCard(name: widget.name)
+          );
+        },
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScurryPage(id: widget.id)));
+        },
         child: Card(
             elevation: 3.0,
             child: Stack(children: [

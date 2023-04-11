@@ -18,6 +18,7 @@ class HomePageState extends State<HomePage> {
     return ListView(
       children: scurries
           .map((e) => ScurryCard(
+                id: e.id!,
                 name: e.name!,
                 pic: e.pic,
               ))
