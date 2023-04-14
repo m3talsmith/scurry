@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:scurry/db_provider.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:scurry/server.dart';
 
 import 'home_page.dart';
 
-void main() {
+void main() async {
+  try {
+    await Server().serve(null);
+  } catch (_) {}
+
   runApp(const App());
 }
 

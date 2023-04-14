@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:scurry/db_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';
@@ -17,8 +16,7 @@ class Scurry {
   Scurry({this.id, this.name, this.pic});
 
   Future<Scurry> save() async {
-    Database db = await DbProvider.open();
-    Scurry.migrate(db);
+    Database db = await DbProvider.open(migrate: Scurry.migrate);
     if (isNewRecord) {
       id = const Uuid().v4().toString();
     }
@@ -33,8 +31,7 @@ class Scurry {
   }
 
   static Future<List<Scurry>> findAll() async {
-    Database db = await DbProvider.open();
-    Scurry.migrate(db);
+    Database db = await DbProvider.open(migrate: Scurry.migrate);
     List<Map> results =
         await db.query(Scurry.table, columns: ['id', 'name', 'pic']);
     return results
@@ -42,15 +39,21 @@ class Scurry {
         .toList();
   }
 
-  static Future<Scurry> find(String id) async {
-    Database db = await DbProvider.open();
-    Scurry.migrate(db);
-    var results = await db.query(Scurry.table, columns: ['id', 'name', 'pic'], where: 'id=?', whereArgs: [id], limit: 1);
+  static Future<Scurry?> find(String id) async {
+    Database db = await DbProvider.open(migrate: Scurry.migrate);
+    var results = await db.query(Scurry.table,
+        columns: ['id', 'name', 'pic'],
+        where: 'id=?',
+        whereArgs: [id],
+        limit: 1);
     if (results.isNotEmpty) {
       var scurry = results.first;
-      return Scurry(id: scurry['id'] as String, name: scurry['name'] as String, pic: File(scurry['pic'] as String));
+      return Scurry(
+          id: scurry['id'] as String,
+          name: scurry['name'] as String,
+          pic: File(scurry['pic'] as String));
     }
-    return Scurry();
+    return null;
   }
 
   static migrate(Database db) async {
