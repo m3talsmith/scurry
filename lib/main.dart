@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:scurry/server.dart';
 
 import 'home_page.dart';
 
 void main() async {
-  try {
-    await Server().serve(null);
-  } catch (_) {}
-
   runApp(const App());
 }
 
