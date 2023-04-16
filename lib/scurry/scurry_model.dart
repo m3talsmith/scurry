@@ -1,4 +1,4 @@
-class Scurry {
+class ScurryModel {
   String? id;
   late String name;
 
@@ -19,7 +19,7 @@ class ScurryPic {
 
 enum ScurryStage { baby, toddler, teenager, youngAdult, adult, midlife, senior }
 
-enum ScurryInteractionKind { born, fed, pet, aged, complimented }
+enum ScurryInteractionKind { born, fed, pet, aged, complimented, poked }
 
 class ScurryInteraction {
   String? id;
