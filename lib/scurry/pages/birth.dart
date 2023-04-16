@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:scurry/common/form/image_form_field.dart';
+import 'package:scurry/scurry.dart';
 
 class BirthPage extends StatefulWidget {
   const BirthPage({super.key});
@@ -10,6 +14,7 @@ class BirthPage extends StatefulWidget {
 class BirthPageState extends State<BirthPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? name;
+  File? pic;
 
   int _index = 0;
   List<Step> get _steps {
@@ -20,10 +25,20 @@ class BirthPageState extends State<BirthPage> {
               key: _formKey,
               child: TextFormField(
                 decoration: const InputDecoration(hintText: 'Name'),
+                onChanged: (String change) {
+                  name = change;
+                },
               ))),
-      const Step(
-          title: Text('Choose a profile picture'), content: Text('File Step'))
+      Step(
+          title: const Text('Choose a profile picture'),
+          content: ImageFormField((image) {
+            pic = image;
+          }))
     ];
+  }
+
+  Future<Scurry> createScurry() async {
+    Scurry scurry = await Scurry();
   }
 
   @override
@@ -42,6 +57,7 @@ class BirthPageState extends State<BirthPage> {
           },
           onStepContinue: () {
             if (_index <= 0) {
+              if (_index == _steps.length - 1) {}
               setState(() {
                 _index += 1;
               });
