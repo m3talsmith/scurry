@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:scurry/common/form/image_form_field.dart';
-import 'package:scurry/scurry.dart';
+import 'package:scurry/scurry/scurry_model.dart';
 
 class BirthPage extends StatefulWidget {
   const BirthPage({super.key});
@@ -37,8 +37,12 @@ class BirthPageState extends State<BirthPage> {
     ];
   }
 
-  Future<Scurry> createScurry() async {
-    Scurry scurry = await Scurry();
+  Future<ScurryModel> createScurry() async {
+    ScurryModel scurry = ScurryModel(name: name!, pics: [
+      ScurryPic(path: pic!.path)
+    ]);
+
+    return scurry;
   }
 
   @override
@@ -55,9 +59,14 @@ class BirthPageState extends State<BirthPage> {
               });
             }
           },
-          onStepContinue: () {
+          onStepContinue: () async {
             if (_index <= 0) {
-              if (_index == _steps.length - 1) {}
+              if (_index == _steps.length - 1) {
+                var nav = Navigator.of(context);
+                ScurryModel scurry = await createScurry();
+                nav.pop(scurry);
+                return;
+              }
               setState(() {
                 _index += 1;
               });
